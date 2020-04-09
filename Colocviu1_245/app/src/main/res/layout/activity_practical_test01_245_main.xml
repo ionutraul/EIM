@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".Colocviu1_245MainActivity" >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    <EditText
+        android:id="@+id/nextTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/add" />
+    </LinearLayout>
+
+        <EditText
+            android:id="@+id/allTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:enabled="false"
+            android:inputType="number"
+            android:gravity="center" />
+    <GridLayout  android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rowCount="1"
+        android:columnCount="1"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/computeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/compute" />
+
+
+    </GridLayout>
+
+
+</LinearLayout>
