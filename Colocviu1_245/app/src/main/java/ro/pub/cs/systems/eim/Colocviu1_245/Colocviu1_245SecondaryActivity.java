@@ -10,14 +10,16 @@ public class Colocviu1_245SecondaryActivity extends AppCompatActivity {
 
     public int sum(String receive) {
         String temp = receive.replace("+","");
+        String[] aux = temp.split(" ");
+        System.out.println("AUX = "+ aux[0]);
         int sum = 0;
         if (temp.equals("")) {
             return 0;
         }
         else {
-            for (int i = 0; i < receive.length(); ++i) {
-                if (Character.toString(receive.charAt(i)).matches("[0-9?]")) {
-                    sum += Character.getNumericValue(receive.charAt(i));
+            for (int i = 0; i < aux.length; ++i) {
+                if (!aux[i].equals("")) {
+                    sum += Integer.parseInt(aux[i]);
                 }
             }
         }
