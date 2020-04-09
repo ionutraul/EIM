@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:saveEnabled="false"
         android:inputType="number"
         android:gravity="center" />
 
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:ems="14"
             android:enabled="false"
+            android:saveEnabled="false"
             android:inputType="number"
             android:gravity="center" />
     <GridLayout  android:layout_width="wrap_content"
