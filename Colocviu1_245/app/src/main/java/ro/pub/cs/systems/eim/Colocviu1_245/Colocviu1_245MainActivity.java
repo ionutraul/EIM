@@ -2,8 +2,12 @@ package ro.pub.cs.systems.eim.Colocviu1_245;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,8 @@ public class  Colocviu1_245MainActivity extends AppCompatActivity {
     Button add;
     String tempTerms = "";
     int modified = 0;
+    private int serviceStatus = Constants.SERVICE_STOPPED;
+    private IntentFilter intentFilter = new IntentFilter();
     int sum;
     Button compute;
     private AddButtonListener addButtonListener = new AddButtonListener();
@@ -41,6 +47,12 @@ public class  Colocviu1_245MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            if (sum  > 10 && serviceStatus == Constants.SERVICE_STOPPED) {
+                Intent intent = new Intent(getApplicationContext(), Colocviu1_245Service.class);
+                intent.putExtra(Constants.ALL_TERMS, sum);
+                getApplicationContext().startService(intent);
+                serviceStatus = Constants.SERVICE_STARTED;
+            }
             if (!tempTerms.equals(allTerms.getText().toString())) {
                 Intent intent = new Intent(getApplicationContext(), Colocviu1_245SecondaryActivity.class);
                 tempTerms = allTerms.getText().toString();
@@ -54,9 +66,37 @@ public class  Colocviu1_245MainActivity extends AppCompatActivity {
 
         }
     }
+    private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+    private class MessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            print(intent);
+        }
+    }
+    public void print(Intent intent) {
+        Toast.makeText(this,Constants.BROADCAST_RECEIVER_TAG + intent.getStringExtra(Constants.BROADCAST_RECEIVER_EXTRA), Toast.LENGTH_LONG).show();
+    }
     public void printSum() {
         Toast.makeText(this, "The activity returned with result without second activity " + sum, Toast.LENGTH_LONG).show();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, Colocviu1_245Service.class);
+        stopService(intent);
+        super.onDestroy();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(messageBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +108,9 @@ public class  Colocviu1_245MainActivity extends AppCompatActivity {
         add.setOnClickListener(addButtonListener);
         compute = (Button) findViewById(R.id.computeButton);
         compute.setOnClickListener(computeButtonListener);
+        for (int index = 0; index < Constants.actionTypes.length; index++) {
+            intentFilter.addAction(Constants.actionTypes[index]);
+        }
     }
 
     @Override
